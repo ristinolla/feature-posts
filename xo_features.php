@@ -9,8 +9,7 @@
  * License: MIT
  */
 
-load_plugin_textdomain('xo', false, basename( dirname( __FILE__ ) ) . '/languages' );
-
+//load_plugin_textdomain('xo', false, basename( dirname( __FILE__ ) ) . '/languages' );
 
 /**
 * xo-nosto post-type
