@@ -17,6 +17,21 @@ function pr_feature_meta_cb( $post )
 	$values = get_post_custom( $post->ID );
 	$linkedto = isset( $values['pr_feature_link'] ) ? esc_url( $values['pr_feature_link'][0] ) : '';
   $order = isset( $values['pr_feature_order'] ) ? sanitize_text_field( $values['pr_feature_order'][0] ) : '';
+    
+  $secondary_content = isset( $values['pr_feature_secondary_content'] ) ? sanitize_text_field( $values['pr_feature_secondary_content'][0] ) : '';
+  $allowed_html = array(
+    'a' => array(
+        'href' => array(),
+        'title' => array()
+    ),
+    'br' => array(),
+    'em' => array(),
+    'strong' => array(),
+    'div', => array(),
+    'section' => array(),
+    'img' => array(),
+  );
+  $stripped = wp_kses($secondary_content, $allowed_html); 
 
 	echo 	'<p><label for="pr_feature_link">' 
       . __('Feature links to: ', 'xo')
@@ -39,7 +54,7 @@ function pr_feature_meta_cb( $post )
   echo '</select>';
   echo '<span class="help-text">  <i>' . __('Importance 1 items are shown first in the site', 'xo') . '</i></span>';
 
-	$content = $linkedto;
+	$content = $stripped;
 	$editor_id = 'mycustomeditor';
 	
 	wp_editor( $content, $editor_id );
@@ -90,6 +105,10 @@ function pr_feature_box_save( $post_id )
 
   if( isset( $_POST['pr_feature_order'] ) ) {
     update_post_meta( $post_id, 'pr_feature_order', sanitize_text_field( $_POST['pr_feature_order'] )  );
+  }
+  
+  if( isset( $_POST['mycustomeditor'] ) ) {
+    update_post_meta( $post_id, 'pr_feature_secondary_content', $_POST['pr_feature_secondary_content'] );
   }
 
 }
