@@ -39,6 +39,11 @@ function pr_feature_meta_cb( $post )
   echo '</select>';
   echo '<span class="help-text">  <i>' . __('Importance 1 items are shown first in the site', 'xo') . '</i></span>';
 
+	$content = $linkedto;
+	$editor_id = 'mycustomeditor';
+	
+	wp_editor( $content, $editor_id );
+
 }
 
 /**
@@ -71,14 +76,9 @@ function pr_feature_box_save( $post_id )
 
   // Check the user's permissions.
   if ( 'page' == $_POST['post_type'] ) {
-
-    if ( ! current_user_can( 'edit_page', $post_id ) )
-        return $post_id;
-  
+  	if ( ! current_user_can( 'edit_page', $post_id ) ) return $post_id;
   } else {
-
-    if ( ! current_user_can( 'edit_post', $post_id ) )
-        return $post_id;
+    if ( ! current_user_can( 'edit_post', $post_id ) ) return $post_id;
   }
 
   /* OK, its safe for us to save the data now. */
